@@ -10,12 +10,14 @@ namespace Inventory_Management_System
 {
     public partial class MainForm : Form
     {
+       
         public MainForm()
         {
             InitializeComponent();
             SetupDataGridView();
-
+            ;
         }
+       
         public void SetupDataGridView()
         {
             dataGridViewParts.AutoGenerateColumns = false;
@@ -146,10 +148,23 @@ namespace Inventory_Management_System
 
         private void btn_delete(object sender, EventArgs e)
         {
-            //    if (dataGridView1.Rows.Count > 0)
-            //        dataGridView1.Rows.RemoveAt(e.GetHashCode());
-            //    else
-            //        MessageBox.Show("You can't remove an empty row"); ---- this may be need to go under the datagridview button.
+            if (dataGridViewParts.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select a part to delete.");
+                return;
+            }
+
+            DialogResult result = MessageBox.Show("Are you sure you want to delete this part?", "Confirm Delete", MessageBoxButtons.YesNo);
+
+            if (result == DialogResult.Yes)
+            {
+                Part selectedPart = dataGridViewParts.SelectedRows[0].DataBoundItem as Part;
+
+                if (selectedPart != null)
+                {
+                    Inventory.Allparts.Remove(selectedPart);
+                }
+            }
         }
         private void btn_exit_click(object sender, EventArgs e)
         {

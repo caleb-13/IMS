@@ -97,5 +97,10 @@ namespace Inventory_Management_System.Forms
         {
 
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
