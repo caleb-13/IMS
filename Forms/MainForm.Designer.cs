@@ -35,8 +35,8 @@
             btn_Modify = new Button();
             button4 = new Button();
             textBox1 = new TextBox();
-            button1 = new Button();
-            textBox2 = new TextBox();
+            btnSearch = new Button();
+            textBoxSearch = new TextBox();
             label1 = new Label();
             label2 = new Label();
             dataGridViewParts = new DataGridView();
@@ -113,24 +113,24 @@
             textBox1.TabIndex = 4;
             textBox1.TextChanged += textBox1_TextChanged;
             // 
-            // button1
+            // btnSearch
             // 
-            button1.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            button1.Location = new Point(303, 61);
-            button1.Name = "button1";
-            button1.Size = new Size(50, 23);
-            button1.TabIndex = 6;
-            button1.Text = "Search";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += btn_search_1;
+            btnSearch.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            btnSearch.Location = new Point(303, 61);
+            btnSearch.Name = "btnSearch";
+            btnSearch.Size = new Size(50, 23);
+            btnSearch.TabIndex = 6;
+            btnSearch.Text = "Search";
+            btnSearch.UseVisualStyleBackColor = true;
+            btnSearch.Click += btn_search_1;
             // 
-            // textBox2
+            // textBoxSearch
             // 
-            textBox2.Location = new Point(372, 61);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(183, 23);
-            textBox2.TabIndex = 7;
-            textBox2.TextChanged += textBox2_TextChanged;
+            textBoxSearch.Location = new Point(372, 61);
+            textBoxSearch.Name = "textBoxSearch";
+            textBoxSearch.Size = new Size(183, 23);
+            textBoxSearch.TabIndex = 7;
+            textBoxSearch.TextChanged += textBox2_TextChanged;
             // 
             // label1
             // 
@@ -314,8 +314,8 @@
             Controls.Add(dataGridViewParts);
             Controls.Add(label2);
             Controls.Add(label1);
-            Controls.Add(textBox2);
-            Controls.Add(button1);
+            Controls.Add(textBoxSearch);
+            Controls.Add(btnSearch);
             Controls.Add(textBox1);
             Controls.Add(button4);
             Controls.Add(btn_Modify);
@@ -332,13 +332,13 @@
 
         #endregion
 
-        private Button button1;
+        private Button btnSearch;
         private Button btn_Add;
         private Button btn_Modify;
         private Button button4;
         private TextBox textBox1;
         private Button Search;
-        private TextBox textBox2;
+        private TextBox textBoxSearch;
         private Label label1;
         private Label label2;
         private DataGridView dataGridViewParts;

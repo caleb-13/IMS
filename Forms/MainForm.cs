@@ -94,13 +94,7 @@ namespace Inventory_Management_System
 
         private void btn_add(object sender, EventArgs e)
         {
-            AddForm addForm = new AddForm(this);
-            if (addForm.ShowDialog() == DialogResult.OK)
-            {
-                // Rebind or refresh to reflect new data
-                dataGridViewParts.DataSource = null;
-                dataGridViewParts.DataSource = Inventory.Allparts;
-            }
+            
         }
         private void AddForm_MouseClick(object? sender, MouseEventArgs e)
         {
@@ -114,7 +108,48 @@ namespace Inventory_Management_System
 
         private void btn_search_1(object sender, EventArgs e)
         {
+            string searchTerm = textBoxSearch.Text.Trim();
+            bool found = false;
 
+            // If the user typed a number, try to search by ID
+            if (int.TryParse(searchTerm, out int partIDToFind))
+            {
+                for (int i = 0; i < dataGridViewParts.Rows.Count; i++)
+                {
+                    Part part = dataGridViewParts.Rows[i].DataBoundItem as Part;
+
+                    if (part != null && part.PartID == partIDToFind)
+                    {
+                        dataGridViewParts.ClearSelection();
+                        dataGridViewParts.Rows[i].Selected = true;
+                        dataGridViewParts.FirstDisplayedScrollingRowIndex = i;
+                        found = true;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                // Otherwise, search by name (case-insensitive)
+                for (int i = 0; i < dataGridViewParts.Rows.Count; i++)
+                {
+                    Part part = dataGridViewParts.Rows[i].DataBoundItem as Part;
+
+                    if (part != null && part.Name.IndexOf(searchTerm, StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        dataGridViewParts.ClearSelection();
+                        dataGridViewParts.Rows[i].Selected = true;
+                        dataGridViewParts.FirstDisplayedScrollingRowIndex = i;
+                        found = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!found)
+            {
+                MessageBox.Show("Part not found.");
+            }
         }
 
         private void btn_search_2(object sender, EventArgs e)
