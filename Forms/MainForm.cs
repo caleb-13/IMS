@@ -15,7 +15,7 @@ namespace Inventory_Management_System
             SetupDataGridView();
 
         }
-        private void SetupDataGridView()
+        public void SetupDataGridView()
         {
             dataGridViewParts.AutoGenerateColumns = false;
             dataGridViewParts.Columns.Clear();
@@ -91,7 +91,6 @@ namespace Inventory_Management_System
 
         private void btn_add(object sender, EventArgs e)
         {
-
             AddForm addForm = new AddForm(this);
             if (addForm.ShowDialog() == DialogResult.OK)
             {
@@ -99,7 +98,6 @@ namespace Inventory_Management_System
                 dataGridViewParts.DataSource = null;
                 dataGridViewParts.DataSource = Inventory.Allparts;
             }
-
         }
         private void AddForm_MouseClick(object? sender, MouseEventArgs e)
         {
@@ -123,9 +121,9 @@ namespace Inventory_Management_System
 
         private void btn_modify(object sender, EventArgs e)
         {
-
-            AddForm addForm = new(this);
-            addForm.ShowDialog();
+            ModifyPart modifyPart = new ModifyPart(this);
+            modifyPart.ShowDialog();
+            
         }
 
         private void btn_delete(object sender, EventArgs e)
@@ -154,9 +152,12 @@ namespace Inventory_Management_System
 
         private void button2_Click_2(object sender, EventArgs e)
         {
+            
             AddProductForm addProductForm = new();
             addProductForm.ShowDialog();
+            SetupDataGridView();
         }
+
 
         private void button3_Click(object sender, EventArgs e)
         {
@@ -172,6 +173,11 @@ namespace Inventory_Management_System
         private void button6_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void DataGridViewProducts_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

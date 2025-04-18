@@ -25,12 +25,12 @@ namespace Inventory_Management_System.Models
 
         static Inventory()
         {
-            addProduct(new Product(1, "Rubber Canary Crate", 10.00, 10, 1, 100));
-            addProduct(new Product(2, "PaperMache Cat Corner", 20.00, 20, 1, 200));
-            addProduct(new Product(3, "Cardboard Doghouse", 30.00, 30, 1, 300));
-            addPart(new Inhouse(1, "Good Rock", 1.00, 10, 1, 100, 1));
-            addPart(new Inhouse(2, "Flat Rock", 2.00, 20, 1, 200, 2));
-            addPart(new Outsourced(3, "Bad Rock", 3.00, 30, 1, 300, "Bob's Builders"));
+            addProduct(new Product(1, "Drill", 10.00, 10, 1, 100));
+            addProduct(new Product(2, "radio", 20.00, 20, 1, 200));
+            addProduct(new Product(3, "Engine", 30.00, 30, 1, 300));
+            addPart(new Inhouse(1, "Drill Bit", 1.00, 10, 1, 100, 1));
+            addPart(new Inhouse(2, "Speaker", 2.00, 20, 1, 200, 2));
+            addPart(new Outsourced(3, "Coil", 3.00, 30, 1, 300, "Auto Industry"));
             PartID = 4; // Start at 4 because we added 3 parts
             ProductID = 4; // Start at 4 because we added 3 products
         }

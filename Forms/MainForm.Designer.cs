@@ -218,6 +218,7 @@
             DataGridViewProducts.RowHeadersVisible = false;
             DataGridViewProducts.Size = new Size(601, 200);
             DataGridViewProducts.TabIndex = 11;
+            DataGridViewProducts.CellContentClick += DataGridViewProducts_CellContentClick;
             // 
             // Column7
             // 

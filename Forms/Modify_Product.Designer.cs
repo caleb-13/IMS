@@ -35,7 +35,7 @@
             Column10 = new DataGridViewTextBoxColumn();
             Column11 = new DataGridViewTextBoxColumn();
             Column12 = new DataGridViewTextBoxColumn();
-            dataGridView2 = new DataGridView();
+            dataGridViewModifyCandidateParts = new DataGridView();
             Column1 = new DataGridViewTextBoxColumn();
             Column2 = new DataGridViewTextBoxColumn();
             Column3 = new DataGridViewTextBoxColumn();
@@ -64,7 +64,7 @@
             button4 = new Button();
             button5 = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewModifyCandidateParts).BeginInit();
             SuspendLayout();
             // 
             // dataGridView1
@@ -107,16 +107,16 @@
             Column12.HeaderText = "Max";
             Column12.Name = "Column12";
             // 
-            // dataGridView2
+            // dataGridViewModifyCandidateParts
             // 
-            dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView2.Columns.AddRange(new DataGridViewColumn[] { Column1, Column2, Column3, Column4, Column5, Column6 });
-            dataGridView2.Location = new Point(371, 73);
-            dataGridView2.Name = "dataGridView2";
-            dataGridView2.RowHeadersVisible = false;
-            dataGridView2.Size = new Size(602, 150);
-            dataGridView2.TabIndex = 1;
-            dataGridView2.CellContentClick += dataGridView2_CellContentClick;
+            dataGridViewModifyCandidateParts.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewModifyCandidateParts.Columns.AddRange(new DataGridViewColumn[] { Column1, Column2, Column3, Column4, Column5, Column6 });
+            dataGridViewModifyCandidateParts.Location = new Point(371, 73);
+            dataGridViewModifyCandidateParts.Name = "dataGridViewModifyCandidateParts";
+            dataGridViewModifyCandidateParts.RowHeadersVisible = false;
+            dataGridViewModifyCandidateParts.Size = new Size(602, 150);
+            dataGridViewModifyCandidateParts.TabIndex = 1;
+            dataGridViewModifyCandidateParts.CellContentClick += dataGridView2_CellContentClick;
             // 
             // Column1
             // 
@@ -349,12 +349,13 @@
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
-            Controls.Add(dataGridView2);
+            Controls.Add(dataGridViewModifyCandidateParts);
             Controls.Add(dataGridView1);
             Name = "Modify_Product";
             Text = "Modify_Product";
+            Load += Modify_Product_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewModifyCandidateParts).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -362,7 +363,7 @@
         #endregion
 
         private DataGridView dataGridView1;
-        private DataGridView dataGridView2;
+        private DataGridView dataGridViewModifyCandidateParts;
         private Label label1;
         private Label label2;
         private Label label3;
