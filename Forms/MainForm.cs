@@ -4,6 +4,7 @@ using System.Reflection.PortableExecutable;
 using System.Security.Cryptography.X509Certificates;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Inventory_Management_System
 {
@@ -121,10 +122,27 @@ namespace Inventory_Management_System
 
         private void btn_modify(object sender, EventArgs e)
         {
-            ModifyPart modifyPart = new ModifyPart(this);
-            modifyPart.ShowDialog();
-            
+
+
+            if (dataGridViewParts.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select a part to modify.");
+                return;
+            }
+
+            Part selectedPart = dataGridViewParts.SelectedRows[0].DataBoundItem as Part;
+
+            if (selectedPart != null)
+            {
+                ModifyPart modifyPart = new ModifyPart(selectedPart);
+
+                if (modifyPart.ShowDialog() == DialogResult.OK)
+                {
+                    dataGridViewParts.Refresh(); // Update the grid with modified values
+                }
+            }
         }
+            
 
         private void btn_delete(object sender, EventArgs e)
         {
