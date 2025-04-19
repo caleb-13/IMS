@@ -255,7 +255,7 @@ namespace Inventory_Management_System
 
         private void btn_modify(object sender, EventArgs e)
         {
-
+            
 
             if (dataGridViewParts.SelectedRows.Count == 0)
             {
@@ -318,8 +318,23 @@ namespace Inventory_Management_System
 
         private void button3_Click(object sender, EventArgs e)
         {
-            Modify_Product modify_Product = new Modify_Product();
-            modify_Product.ShowDialog();
+            if (DataGridViewProducts.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select a product to modify.");
+                return;
+            }
+
+            Product selectedProduct = DataGridViewProducts.SelectedRows[0].DataBoundItem as Product;
+
+            if (selectedProduct != null)
+            {
+                ModifyProduct modifyProductForm = new ModifyProduct(selectedProduct); // ? Correct class & variable name
+
+                if (modifyProductForm.ShowDialog() == DialogResult.OK)
+                {
+                    DataGridViewProducts.Refresh(); // ? Will update the view if data is changed in-place
+                }
+            }
         }
 
         private void dataGridViewParts_CellContentClick(object sender, DataGridViewCellEventArgs e)

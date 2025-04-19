@@ -8,15 +8,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Inventory_Management_System.Forms
 {
-    public partial class Modify_Product : Form
+    public partial class ModifyProduct : Form
     {
-        public Modify_Product()
+        private Product product;
+        internal ModifyProduct(Product selectedProduct)
         {
             InitializeComponent();
+            product = selectedProduct;
 
+            // Pre-fill form controls
+            textBox3.Text = product.ProductID.ToString();
+            textBox4.Text = product.Name;
+            textBox2.Text = product.Price.ToString();
+            textBox5.Text = product.InStock.ToString();
+            textBox7.Text = product.Min.ToString();
+            textBox6.Text = product.Max.ToString();
+
+            textBox3.ReadOnly = true; // ID is not editable
         }
 
         private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -71,6 +83,25 @@ namespace Inventory_Management_System.Forms
 
             dataGridViewModifyCandidateParts.DataSource = Inventory.Allparts;
             dataGridViewModifyCandidateParts.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                product.Name = textBox4.Text;
+                product.Price = double.Parse(textBox2.Text);
+                product.InStock = int.Parse(textBox5.Text);
+                product.Min = int.Parse(textBox7.Text);
+                product.Max = int.Parse(textBox6.Text);
+
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error saving product: " + ex.Message);
+            }
         }
     }
 }

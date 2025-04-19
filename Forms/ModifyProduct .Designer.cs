@@ -1,6 +1,6 @@
 ﻿namespace Inventory_Management_System.Forms
 {
-    partial class Modify_Product
+    partial class ModifyProduct
     {
         /// <summary>
         /// Required designer variable.
@@ -313,6 +313,7 @@
             button4.TabIndex = 21;
             button4.Text = "Save";
             button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
             // 
             // button5
             // 
