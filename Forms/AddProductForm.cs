@@ -13,13 +13,14 @@ namespace Inventory_Management_System.Forms
 {
     public partial class AddProductForm : Form
     {
+
+        internal Product newProduct;
         public AddProductForm()
         {
             InitializeComponent();
             dataGridViewCandidateParts.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-                
         }
-        
+
 
         private void label10_Click(object sender, EventArgs e)
         {
@@ -39,7 +40,7 @@ namespace Inventory_Management_System.Forms
         private void button4_Click(object sender, EventArgs e)
         {
 
-            
+
         }
         public void SetupDataGridView()
         {
@@ -84,6 +85,31 @@ namespace Inventory_Management_System.Forms
 
             dataGridViewCandidateParts.DataSource = Inventory.Allparts;
             dataGridViewCandidateParts.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+        }
+
+
+
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int productID = Inventory.generateProductID(); 
+                string name = textBox3.Text;
+                int instock = int.Parse(textBox4.Text);
+                double price = double.Parse(textBox5.Text);
+                int min = int.Parse(textBox7.Text);
+                int max = int.Parse(textBox6.Text);
+
+                newProduct = new Product(productID, name, price, instock, min, max);
+
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
         }
     }
 }

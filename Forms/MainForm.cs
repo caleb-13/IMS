@@ -10,14 +10,15 @@ namespace Inventory_Management_System
 {
     public partial class MainForm : Form
     {
-       
+
         public MainForm()
         {
             InitializeComponent();
             SetupDataGridView();
-            ;
+            SetupProductDataGridView();
         }
-       
+
+
         public void SetupDataGridView()
         {
             dataGridViewParts.AutoGenerateColumns = false;
@@ -63,6 +64,51 @@ namespace Inventory_Management_System
             dataGridViewParts.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
         }
 
+        public void SetupProductDataGridView()
+        {
+            DataGridViewProducts.AutoGenerateColumns = false;
+            DataGridViewProducts.Columns.Clear();
+
+            DataGridViewProducts.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "ProductID",
+                HeaderText = "ID"
+            });
+
+            DataGridViewProducts.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "Name",
+                HeaderText = "Name"
+            });
+
+            DataGridViewProducts.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "Price",
+                HeaderText = "Price"
+            });
+
+            DataGridViewProducts.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "InStock",
+                HeaderText = "In Stock"
+            });
+
+            DataGridViewProducts.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "Min",
+                HeaderText = "Min"
+            });
+
+            DataGridViewProducts.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "Max",
+                HeaderText = "Max"
+            });
+
+            DataGridViewProducts.DataSource = Inventory.Products;
+            DataGridViewProducts.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+        }
+
 
 
 
@@ -94,7 +140,7 @@ namespace Inventory_Management_System
 
         private void btn_add(object sender, EventArgs e)
         {
-            
+
         }
         private void AddForm_MouseClick(object? sender, MouseEventArgs e)
         {
@@ -179,7 +225,7 @@ namespace Inventory_Management_System
                 }
             }
         }
-            
+
 
         private void btn_delete(object sender, EventArgs e)
         {
@@ -218,13 +264,6 @@ namespace Inventory_Management_System
 
         }
 
-        private void button2_Click_2(object sender, EventArgs e)
-        {
-            
-            AddProductForm addProductForm = new();
-            addProductForm.ShowDialog();
-            SetupDataGridView();
-        }
 
 
         private void button3_Click(object sender, EventArgs e)
@@ -243,9 +282,26 @@ namespace Inventory_Management_System
             this.Close();
         }
 
-        private void DataGridViewProducts_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        public void DataGridViewProducts_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }
+
+        private void button2_Click_2(object sender, EventArgs e)
+        {
+
+            AddProductForm addForm = new AddProductForm();
+
+            if (addForm.ShowDialog() == DialogResult.OK)
+            {
+                if (addForm.newProduct != null)
+                {
+                    Inventory.Products.Add(addForm.newProduct);
+                }
+
+            }
+        }
+
     }
 }
+

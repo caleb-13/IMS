@@ -17,7 +17,7 @@ namespace Inventory_Management_System.Models
         static public Product CurrentPrdouct { get; set; }
         static public Part CurrentProduct { get; set; } 
         static private int PartID { get; set; }
-        static private int ProductID { get; set; }
+        private static int nextProductID = 1;
 
         private static int nextID = 4;
 
@@ -32,7 +32,7 @@ namespace Inventory_Management_System.Models
             addPart(new Inhouse(2, "Speaker", 2.00, 20, 1, 200, 2));
             addPart(new Outsourced(3, "Coil", 3.00, 30, 1, 300, "Auto Industry"));
             PartID = 4; // Start at 4 because we added 3 parts
-            ProductID = 4; // Start at 4 because we added 3 products
+            nextProductID = 4; // Start at 4 because we added 3 products
         }
 
         public static int GenerateNextID()
@@ -42,14 +42,7 @@ namespace Inventory_Management_System.Models
 
         public static int generateProductID()
         {
-            try
-            {
-                return ProductID++;
-            }
-            catch (Exception e)
-            {
-                return 0;
-            }
+            return nextProductID++;
         }
 
         public static void addPart(Part part)
