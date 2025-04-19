@@ -352,6 +352,28 @@ namespace Inventory_Management_System
             }
         }
 
-    }
+
+
+        private void button5_Click_1(object sender, EventArgs e)
+        {
+            if (DataGridViewProducts.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select a product to delete.");
+                return;
+            }
+
+            DialogResult result = MessageBox.Show("Are you sure you want to delete this product?", "Confirm Delete", MessageBoxButtons.YesNo);
+
+            if (result == DialogResult.Yes)
+            {
+                Product selectedProduct = DataGridViewProducts.SelectedRows[0].DataBoundItem as Product;
+
+                if (selectedProduct != null)
+                {
+                    Inventory.Products.Remove(selectedProduct);
+                }
+            }
+        }
+    }   
 }
 
