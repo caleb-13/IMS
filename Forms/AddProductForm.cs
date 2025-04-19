@@ -19,7 +19,51 @@ namespace Inventory_Management_System.Forms
         {
             InitializeComponent();
             dataGridViewCandidateParts.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dataGridViewAssociatedParts.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            SetupAssociatedPartsGrid();
         }
+        private void SetupAssociatedPartsGrid()
+        {
+            dataGridViewAssociatedParts.AutoGenerateColumns = false;
+            dataGridViewAssociatedParts.Columns.Clear();
+
+            dataGridViewAssociatedParts.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "PartID",
+                HeaderText = "ID"
+            });
+
+            dataGridViewAssociatedParts.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "Name",
+                HeaderText = "Name"
+            });
+
+            dataGridViewAssociatedParts.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "Price",
+                HeaderText = "Price"
+            });
+
+            dataGridViewAssociatedParts.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "InStock",
+                HeaderText = "In Stock"
+            });
+
+            dataGridViewAssociatedParts.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "Min",
+                HeaderText = "Min"
+            });
+
+            dataGridViewAssociatedParts.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "Max",
+                HeaderText = "Max"
+            });
+        }
+
 
 
         private void label10_Click(object sender, EventArgs e)
@@ -35,11 +79,26 @@ namespace Inventory_Management_System.Forms
         private void AddProductForm_Load(object sender, EventArgs e)
         {
             SetupDataGridView();
+            dataGridViewCandidateParts.DataSource = Inventory.Allparts;
+            dataGridViewAssociatedParts.DataSource = Product.AssociatedParts;
+
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
+            if (dataGridViewCandidateParts.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select a part to associate.");
+                return;
+            }
 
+            Part selectedPart = dataGridViewCandidateParts.SelectedRows[0].DataBoundItem as Part;
+
+            if (selectedPart != null && !Product.AssociatedParts.Contains(selectedPart))
+            {
+                Product.AssociatedParts.Add(selectedPart);
+                dataGridViewAssociatedParts.Refresh();
+            }
 
         }
         public void SetupDataGridView()
@@ -94,7 +153,7 @@ namespace Inventory_Management_System.Forms
         {
             try
             {
-                int productID = Inventory.generateProductID(); 
+                int productID = Inventory.generateProductID();
                 string name = textBox3.Text;
                 int instock = int.Parse(textBox4.Text);
                 double price = double.Parse(textBox5.Text);
@@ -111,5 +170,31 @@ namespace Inventory_Management_System.Forms
                 MessageBox.Show("Error: " + ex.Message);
             }
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewAssociatedParts.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select a part to remove.");
+                return;
+            }
+
+            Part selectedPart = dataGridViewAssociatedParts.SelectedRows[0].DataBoundItem as Part;
+
+            if (selectedPart != null)
+            {
+                DialogResult confirm = MessageBox.Show(
+                    $"Remove '{selectedPart.Name}' from associated parts?",
+                    "Confirm Remove", MessageBoxButtons.YesNo);
+
+                if (confirm == DialogResult.Yes)
+                {
+                    Product.AssociatedParts.Remove(selectedPart);
+                    dataGridViewAssociatedParts.Refresh();
+                }
+            
+            }
+        }
     }
-}
+ }
+

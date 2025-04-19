@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            dataGridView1 = new DataGridView();
+            dataGridViewModifyAssociatedParts = new DataGridView();
             Column7 = new DataGridViewTextBoxColumn();
             Column8 = new DataGridViewTextBoxColumn();
             Column9 = new DataGridViewTextBoxColumn();
@@ -63,19 +63,19 @@
             button3 = new Button();
             button4 = new Button();
             button5 = new Button();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewModifyAssociatedParts).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridViewModifyCandidateParts).BeginInit();
             SuspendLayout();
             // 
-            // dataGridView1
+            // dataGridViewModifyAssociatedParts
             // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { Column7, Column8, Column9, Column10, Column11, Column12 });
-            dataGridView1.Location = new Point(371, 371);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowHeadersVisible = false;
-            dataGridView1.Size = new Size(602, 150);
-            dataGridView1.TabIndex = 0;
+            dataGridViewModifyAssociatedParts.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewModifyAssociatedParts.Columns.AddRange(new DataGridViewColumn[] { Column7, Column8, Column9, Column10, Column11, Column12 });
+            dataGridViewModifyAssociatedParts.Location = new Point(371, 371);
+            dataGridViewModifyAssociatedParts.Name = "dataGridViewModifyAssociatedParts";
+            dataGridViewModifyAssociatedParts.RowHeadersVisible = false;
+            dataGridViewModifyAssociatedParts.Size = new Size(602, 150);
+            dataGridViewModifyAssociatedParts.TabIndex = 0;
             // 
             // Column7
             // 
@@ -304,6 +304,7 @@
             button3.TabIndex = 20;
             button3.Text = "Delete";
             button3.UseVisualStyleBackColor = true;
+            //button3.Click += this.button3_Click;
             // 
             // button4
             // 
@@ -324,7 +325,7 @@
             button5.Text = "Cancel";
             button5.UseVisualStyleBackColor = true;
             // 
-            // Modify_Product
+            // ModifyProduct
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -351,11 +352,11 @@
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(dataGridViewModifyCandidateParts);
-            Controls.Add(dataGridView1);
-            Name = "Modify_Product";
+            Controls.Add(dataGridViewModifyAssociatedParts);
+            Name = "ModifyProduct";
             Text = "Modify_Product";
             Load += Modify_Product_Load;
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewModifyAssociatedParts).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridViewModifyCandidateParts).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -363,7 +364,7 @@
 
         #endregion
 
-        private DataGridView dataGridView1;
+        private DataGridView dataGridViewModifyAssociatedParts;
         private DataGridView dataGridViewModifyCandidateParts;
         private Label label1;
         private Label label2;

@@ -29,12 +29,39 @@ namespace Inventory_Management_System.Forms
             textBox6.Text = product.Max.ToString();
 
             textBox3.ReadOnly = true; // ID is not editable
+
+            dataGridViewModifyCandidateParts.DataSource = Inventory.Allparts;
+            dataGridViewModifyAssociatedParts.DataSource = Product.AssociatedParts;
         }
 
         private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }
+        private void btnRemoveAssociatedPart_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewModifyAssociatedParts.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select an associated part to remove.");
+                return;
+            }
+
+            Part selectedPart = dataGridViewModifyAssociatedParts.SelectedRows[0].DataBoundItem as Part;
+
+            if (selectedPart != null)
+            {
+                DialogResult result = MessageBox.Show(
+                    $"Are you sure you want to remove '{selectedPart.Name}'?",
+                    "Confirm Remove", MessageBoxButtons.YesNo);
+
+                if (result == DialogResult.Yes)
+                {
+                    Product.AssociatedParts.Remove(selectedPart);
+                    dataGridViewModifyAssociatedParts.Refresh();
+                }
+            }
+        }
+
 
         private void Modify_Product_Load(object sender, EventArgs e)
         {

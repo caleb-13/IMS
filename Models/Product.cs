@@ -12,7 +12,7 @@ namespace Inventory_Management_System.Models
 {
     internal class Product 
     {
-        public BindingList<Part> AssociatedParts { get; set; }  = new BindingList<Part> {};
+        public static BindingList<Part> AssociatedParts { get; set; }  = new BindingList<Part> {};
 
         public int ProductID { get; set; }
         public string Name { get; set; }

@@ -36,7 +36,7 @@ namespace Inventory_Management_System.Forms
             Column4 = new DataGridViewTextBoxColumn();
             Column5 = new DataGridViewTextBoxColumn();
             Column6 = new DataGridViewTextBoxColumn();
-            dataGridView2 = new DataGridView();
+            dataGridViewAssociatedParts = new DataGridView();
             Column7 = new DataGridViewTextBoxColumn();
             Column8 = new DataGridViewTextBoxColumn();
             Column9 = new DataGridViewTextBoxColumn();
@@ -65,7 +65,7 @@ namespace Inventory_Management_System.Forms
             button4 = new Button();
             button5 = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridViewCandidateParts).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewAssociatedParts).BeginInit();
             SuspendLayout();
             // 
             // dataGridViewCandidateParts
@@ -116,15 +116,15 @@ namespace Inventory_Management_System.Forms
             Column6.Name = "Column6";
             Column6.ReadOnly = true;
             // 
-            // dataGridView2
+            // dataGridViewAssociatedParts
             // 
-            dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView2.Columns.AddRange(new DataGridViewColumn[] { Column7, Column8, Column9, Column10, Column11, Column12 });
-            dataGridView2.Location = new Point(439, 296);
-            dataGridView2.Name = "dataGridView2";
-            dataGridView2.RowHeadersVisible = false;
-            dataGridView2.Size = new Size(603, 150);
-            dataGridView2.TabIndex = 1;
+            dataGridViewAssociatedParts.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridViewAssociatedParts.Columns.AddRange(new DataGridViewColumn[] { Column7, Column8, Column9, Column10, Column11, Column12 });
+            dataGridViewAssociatedParts.Location = new Point(439, 296);
+            dataGridViewAssociatedParts.Name = "dataGridViewAssociatedParts";
+            dataGridViewAssociatedParts.RowHeadersVisible = false;
+            dataGridViewAssociatedParts.Size = new Size(603, 150);
+            dataGridViewAssociatedParts.TabIndex = 1;
             // 
             // Column7
             // 
@@ -252,6 +252,7 @@ namespace Inventory_Management_System.Forms
             button1.TabIndex = 13;
             button1.Text = "Delete";
             button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // button2
             // 
@@ -359,13 +360,13 @@ namespace Inventory_Management_System.Forms
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(textBox1);
-            Controls.Add(dataGridView2);
+            Controls.Add(dataGridViewAssociatedParts);
             Controls.Add(dataGridViewCandidateParts);
             Name = "AddProductForm";
             Text = "AddProductForm";
             Load += AddProductForm_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridViewCandidateParts).EndInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dataGridViewAssociatedParts).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -398,7 +399,7 @@ namespace Inventory_Management_System.Forms
         #endregion
 
         private DataGridView dataGridViewCandidateParts;
-        private DataGridView dataGridView2;
+        private DataGridView dataGridViewAssociatedParts;
         private TextBox textBox1;
         private Label label2;
         private Label label3;
