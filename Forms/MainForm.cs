@@ -140,7 +140,13 @@ namespace Inventory_Management_System
 
         private void btn_add(object sender, EventArgs e)
         {
-
+            AddForm addForm = new AddForm(this);
+            if (addForm.ShowDialog() == DialogResult.OK)
+            {
+                // Rebind or refresh to reflect new data
+                dataGridViewParts.DataSource = null;
+                dataGridViewParts.DataSource = Inventory.Allparts;
+            }
         }
         private void AddForm_MouseClick(object? sender, MouseEventArgs e)
         {
@@ -198,9 +204,53 @@ namespace Inventory_Management_System
             }
         }
 
-        private void btn_search_2(object sender, EventArgs e)
+        private void bthProductSearch_Click(object sender, EventArgs e)
         {
+            string searchTerm = textBox1.Text.Trim();
+            bool found = false;
 
+            if (string.IsNullOrEmpty(searchTerm))
+            {
+                MessageBox.Show("Please enter a Product ID or Name.");
+                return;
+            }
+
+            // Try searching by Product ID (numeric)
+            if (int.TryParse(searchTerm, out int productIDToFind))
+            {
+                foreach (DataGridViewRow row in DataGridViewProducts.Rows)
+                {
+                    if (row.DataBoundItem is Product product && product.ProductID == productIDToFind)
+                    {
+                        DataGridViewProducts.ClearSelection();
+                        row.Selected = true;
+                        DataGridViewProducts.FirstDisplayedScrollingRowIndex = row.Index;
+                        found = true;
+                        break;
+                    }
+                }
+            }
+            else
+            {
+                // Search by product name (case-insensitive)
+                foreach (DataGridViewRow row in DataGridViewProducts.Rows)
+                {
+                    if (row.DataBoundItem is Product product &&
+                        product.Name.IndexOf(searchTerm, StringComparison.OrdinalIgnoreCase) >= 0)
+                    {
+                        DataGridViewProducts.ClearSelection();
+                        row.Selected = true;
+                        DataGridViewProducts.FirstDisplayedScrollingRowIndex = row.Index;
+                        found = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!found)
+            {
+                MessageBox.Show("Product not found.");
+            }
         }
 
         private void btn_modify(object sender, EventArgs e)

@@ -30,7 +30,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            Search = new Button();
+            bthProductSearch = new Button();
             btn_Add = new Button();
             btn_Modify = new Button();
             button4 = new Button();
@@ -64,16 +64,16 @@
             ((System.ComponentModel.ISupportInitialize)DataGridViewProducts).BeginInit();
             SuspendLayout();
             // 
-            // Search
+            // bthProductSearch
             // 
-            Search.AutoSizeMode = AutoSizeMode.GrowAndShrink;
-            Search.Location = new Point(990, 55);
-            Search.Name = "Search";
-            Search.Size = new Size(50, 23);
-            Search.TabIndex = 0;
-            Search.Text = "Search";
-            Search.UseVisualStyleBackColor = true;
-            Search.Click += btn_search_2;
+            bthProductSearch.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            bthProductSearch.Location = new Point(990, 55);
+            bthProductSearch.Name = "bthProductSearch";
+            bthProductSearch.Size = new Size(50, 23);
+            bthProductSearch.TabIndex = 0;
+            bthProductSearch.Text = "Search";
+            bthProductSearch.UseVisualStyleBackColor = true;
+            bthProductSearch.Click += bthProductSearch_Click;
             // 
             // btn_Add
             // 
@@ -320,7 +320,7 @@
             Controls.Add(button4);
             Controls.Add(btn_Modify);
             Controls.Add(btn_Add);
-            Controls.Add(Search);
+            Controls.Add(bthProductSearch);
             Name = "MainForm";
             Text = "Main";
             Load += Form1_Load;
@@ -337,7 +337,7 @@
         private Button btn_Modify;
         private Button button4;
         private TextBox textBox1;
-        private Button Search;
+        private Button bthProductSearch;
         private TextBox textBoxSearch;
         private Label label1;
         private Label label2;

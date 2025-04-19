@@ -63,9 +63,6 @@ namespace Inventory_Management_System
                 int Max = int.Parse(textBox4.Text);
 
 
-
-
-
                 if (rbInHouse.Checked)
                 {
                     int MachineID = int.Parse(textBox6.Text);
