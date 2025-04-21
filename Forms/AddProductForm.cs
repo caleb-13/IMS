@@ -30,7 +30,7 @@ namespace Inventory_Management_System.Forms
             dataGridViewAssociatedParts.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = "PartID",
-                HeaderText = "ID"
+                HeaderText = "Part ID"
             });
 
             dataGridViewAssociatedParts.Columns.Add(new DataGridViewTextBoxColumn
@@ -48,7 +48,7 @@ namespace Inventory_Management_System.Forms
             dataGridViewAssociatedParts.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = "InStock",
-                HeaderText = "In Stock"
+                HeaderText = "Inventory"
             });
 
             dataGridViewAssociatedParts.Columns.Add(new DataGridViewTextBoxColumn
@@ -151,24 +151,55 @@ namespace Inventory_Management_System.Forms
 
         private void button2_Click(object sender, EventArgs e)
         {
-            try
+            if (!int.TryParse(textBox4.Text, out int inStock))
             {
-                int productID = Inventory.generateProductID();
-                string name = textBox3.Text;
-                int instock = int.Parse(textBox4.Text);
-                double price = double.Parse(textBox5.Text);
-                int min = int.Parse(textBox7.Text);
-                int max = int.Parse(textBox6.Text);
-
-                newProduct = new Product(productID, name, price, instock, min, max);
-
-                this.DialogResult = DialogResult.OK;
-                this.Close();
+                MessageBox.Show("Inventory must be a whole number.");
+                return;
             }
-            catch (Exception ex)
+
+            if (!double.TryParse(textBox5.Text, out double price))
             {
-                MessageBox.Show("Error: " + ex.Message);
+                MessageBox.Show("Price must be a valid number.");
+                return;
             }
+
+            if (!int.TryParse(textBox7.Text, out int min))
+            {
+                MessageBox.Show("Min must be a whole number.");
+                return;
+            }
+
+            if (!int.TryParse(textBox6.Text, out int max))
+            {
+                MessageBox.Show("Max must be a whole number.");
+                return;
+            }
+
+            if (min > max)
+            {
+                MessageBox.Show("Min cannot be greater than Max.");
+                return;
+            }
+
+            if (inStock < min || inStock > max)
+            {
+                MessageBox.Show("Inventory must be between Min and Max.");
+                return;
+            }
+
+            string name = textBox3.Text.Trim();
+            if (string.IsNullOrEmpty(name))
+            {
+                MessageBox.Show("Product name cannot be empty.");
+                return;
+            }
+
+            // All validation passed — create the product
+            int productID = Inventory.generateProductID();
+            newProduct = new Product(productID, name, price, inStock, min, max);
+
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -192,9 +223,19 @@ namespace Inventory_Management_System.Forms
                     Product.AssociatedParts.Remove(selectedPart);
                     dataGridViewAssociatedParts.Refresh();
                 }
-            
+
             }
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void dataGridViewAssociatedParts_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
- }
+}
 

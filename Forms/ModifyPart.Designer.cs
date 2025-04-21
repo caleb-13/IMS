@@ -57,7 +57,7 @@
             button2.TabIndex = 85;
             button2.Text = "Cancel";
             button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
+            //button2.Click += button2_Click;
             // 
             // Savebtn
             // 
@@ -180,7 +180,7 @@
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(112, 23);
             textBox1.TabIndex = 70;
-            textBox1.TextChanged += textBox1_TextChanged;
+            //textBox1.TextChanged += textBox1_TextChanged;
             // 
             // label1
             // 

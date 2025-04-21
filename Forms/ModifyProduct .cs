@@ -19,7 +19,7 @@ namespace Inventory_Management_System.Forms
         {
             InitializeComponent();
             product = selectedProduct;
-
+            SetupAssociatedPartsGrid();
             // Pre-fill form controls
             textBox3.Text = product.ProductID.ToString();
             textBox4.Text = product.Name;
@@ -114,21 +114,155 @@ namespace Inventory_Management_System.Forms
 
         private void button4_Click(object sender, EventArgs e)
         {
-            try
+            if (!double.TryParse(textBox2.Text, out double price))
             {
-                product.Name = textBox4.Text;
-                product.Price = double.Parse(textBox2.Text);
-                product.InStock = int.Parse(textBox5.Text);
-                product.Min = int.Parse(textBox7.Text);
-                product.Max = int.Parse(textBox6.Text);
-
-                this.DialogResult = DialogResult.OK;
-                this.Close();
+                MessageBox.Show("Price must be a valid number.");
+                return;
             }
-            catch (Exception ex)
+
+            if (!int.TryParse(textBox5.Text, out int inStock))
             {
-                MessageBox.Show("Error saving product: " + ex.Message);
+                MessageBox.Show("Inventory must be a whole number.");
+                return;
+            }
+
+            if (!int.TryParse(textBox7.Text, out int min))
+            {
+                MessageBox.Show("Min must be a whole number.");
+                return;
+            }
+
+            if (!int.TryParse(textBox6.Text, out int max))
+            {
+                MessageBox.Show("Max must be a whole number.");
+                return;
+            }
+
+            if (min > max)
+            {
+                MessageBox.Show("Min cannot be greater than Max.");
+                return;
+            }
+
+            if (inStock < min || inStock > max)
+            {
+                MessageBox.Show("Inventory must be between Min and Max.");
+                return;
+            }
+
+            string name = textBox4.Text.Trim();
+            if (string.IsNullOrEmpty(name))
+            {
+                MessageBox.Show("Product name cannot be empty.");
+                return;
+            }
+
+            // All validation passed — now save changes to the product
+            product.Name = name;
+            product.Price = price;
+            product.InStock = inStock;
+            product.Min = min;
+            product.Max = max;
+
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+            if (dataGridViewModifyCandidateParts.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select a part to associate.");
+                return;
+            }
+
+            Part selectedPart = dataGridViewModifyCandidateParts.SelectedRows[0].DataBoundItem as Part;
+
+            if (selectedPart != null)
+            {
+                if (!Product.AssociatedParts.Contains(selectedPart))
+                {
+                    Product.AssociatedParts.Add(selectedPart);
+                    dataGridViewModifyAssociatedParts.Refresh(); // Refresh the view
+                }
+                else
+                {
+                    MessageBox.Show("This part is already associated with the product.");
+                }
+            }
+        }
+        private void SetupAssociatedPartsGrid()
+        {
+            dataGridViewModifyAssociatedParts.AutoGenerateColumns = false;
+            dataGridViewModifyAssociatedParts.Columns.Clear();
+
+            dataGridViewModifyAssociatedParts.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "PartID",
+                HeaderText = "ID"
+            });
+
+            dataGridViewModifyAssociatedParts.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "Name",
+                HeaderText = "Name"
+            });
+
+            dataGridViewModifyAssociatedParts.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "Price",
+                HeaderText = "Price"
+            });
+
+            dataGridViewModifyAssociatedParts.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "InStock",
+                HeaderText = "In Stock"
+            });
+
+            dataGridViewModifyAssociatedParts.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "Min",
+                HeaderText = "Min"
+            });
+
+            dataGridViewModifyAssociatedParts.Columns.Add(new DataGridViewTextBoxColumn
+            {
+                DataPropertyName = "Max",
+                HeaderText = "Max"
+            });
+            dataGridViewModifyAssociatedParts.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewModifyAssociatedParts.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Please select a part to remove.");
+                return;
+            }
+
+            Part selectedPart = dataGridViewModifyAssociatedParts.SelectedRows[0].DataBoundItem as Part;
+
+            if (selectedPart != null)
+            {
+                DialogResult confirm = MessageBox.Show(
+                    $"Are you sure you want to remove '{selectedPart.Name}' from this product?",
+                    "Confirm Remove", MessageBoxButtons.YesNo);
+
+                if (confirm == DialogResult.Yes)
+                {
+                    Product.AssociatedParts.Remove(selectedPart);
+                    dataGridViewModifyAssociatedParts.Refresh();
+                }
             }
         }
     }
 }
+

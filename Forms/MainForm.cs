@@ -27,7 +27,7 @@ namespace Inventory_Management_System
             dataGridViewParts.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = "PartID",
-                HeaderText = "ID"
+                HeaderText = "Part ID"
             });
 
             dataGridViewParts.Columns.Add(new DataGridViewTextBoxColumn
@@ -45,7 +45,7 @@ namespace Inventory_Management_System
             dataGridViewParts.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = "InStock",
-                HeaderText = "In Stock"
+                HeaderText = "Inventory"
             });
 
             dataGridViewParts.Columns.Add(new DataGridViewTextBoxColumn
@@ -72,7 +72,7 @@ namespace Inventory_Management_System
             DataGridViewProducts.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = "ProductID",
-                HeaderText = "ID"
+                HeaderText = "Product ID"
             });
 
             DataGridViewProducts.Columns.Add(new DataGridViewTextBoxColumn
@@ -90,7 +90,7 @@ namespace Inventory_Management_System
             DataGridViewProducts.Columns.Add(new DataGridViewTextBoxColumn
             {
                 DataPropertyName = "InStock",
-                HeaderText = "In Stock"
+                HeaderText = "Inventory"
             });
 
             DataGridViewProducts.Columns.Add(new DataGridViewTextBoxColumn
@@ -285,16 +285,25 @@ namespace Inventory_Management_System
                 return;
             }
 
-            DialogResult result = MessageBox.Show("Are you sure you want to delete this part?", "Confirm Delete", MessageBoxButtons.YesNo);
+            Part selectedPart = dataGridViewParts.SelectedRows[0].DataBoundItem as Part;
+
+            // ? Check if part is associated with any product
+            bool isPartAssociated = Inventory.Products.Any(Product =>
+                Product.AssociatedParts.Contains(selectedPart));
+
+            if (isPartAssociated)
+            {
+                MessageBox.Show("This part is associated with one or more products and cannot be deleted.");
+                return;
+            }
+
+            DialogResult result = MessageBox.Show(
+                "Are you sure you want to delete this part?",
+                "Confirm Delete", MessageBoxButtons.YesNo);
 
             if (result == DialogResult.Yes)
             {
-                Part selectedPart = dataGridViewParts.SelectedRows[0].DataBoundItem as Part;
-
-                if (selectedPart != null)
-                {
-                    Inventory.Allparts.Remove(selectedPart);
-                }
+                Inventory.Allparts.Remove(selectedPart);
             }
         }
         private void btn_exit_click(object sender, EventArgs e)

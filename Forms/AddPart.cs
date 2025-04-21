@@ -53,48 +53,78 @@ namespace Inventory_Management_System
 
         private void button1_Click(object sender, EventArgs e)
         {
-            try
+            if (!int.TryParse(textBox3.Text, out int inStock))
             {
-                int PartID = Inventory.GenerateNextID(); // or however you auto-generate IDs
-                string PartName = textBox2.Text;
-                int InStock = int.Parse(textBox3.Text);
-                double Price = double.Parse(textBox14.Text);
-                int Min = int.Parse(textBox5.Text);
-                int Max = int.Parse(textBox4.Text);
+                MessageBox.Show("Inventory must be a whole number.");
+                return;
+            }
 
+            if (!double.TryParse(textBox14.Text, out double price))
+            {
+                MessageBox.Show("Price must be a number.");
+                return;
+            }
 
-                if (rbInHouse.Checked)
+            if (!int.TryParse(textBox5.Text, out int min))
+            {
+                MessageBox.Show("Min must be a whole number.");
+                return;
+            }
+
+            if (!int.TryParse(textBox4.Text, out int max))
+            {
+                MessageBox.Show("Max must be a whole number.");
+                return;
+            }
+
+            if (min > max)
+            {
+                MessageBox.Show("Min cannot be greater than Max.");
+                return;
+            }
+
+            if (inStock < min || inStock > max)
+            {
+                MessageBox.Show("Inventory must be between Min and Max.");
+                return;
+            }
+
+            // Optional: Check name is not blank
+            string partName = textBox2.Text.Trim();
+            if (string.IsNullOrEmpty(partName))
+            {
+                MessageBox.Show("Part Name cannot be empty.");
+                return;
+            }
+
+            int partID = Inventory.GenerateNextID();
+
+            if (rbInHouse.Checked)
+            {
+                if (!int.TryParse(textBox6.Text, out int machineID))
                 {
-                    int MachineID = int.Parse(textBox6.Text);
-                    Inhouse newPart = new Inhouse(PartID, PartName, Price, InStock, Min, Max, MachineID);
-
-                    Inventory.addPart(newPart);
+                    MessageBox.Show("Machine ID must be a whole number.");
+                    return;
                 }
 
-                else if (rbOutsourced.Checked)
+                Inhouse newPart = new Inhouse(partID, partName, price, inStock, min, max, machineID);
+                Inventory.addPart(newPart);
+            }
+            else if (rbOutsourced.Checked)
+            {
+                string companyName = textBox6.Text.Trim();
+                if (string.IsNullOrEmpty(companyName))
                 {
-                    string CompanyName = textBox6.Text;
-
-                    Outsourced newPart = new Outsourced(PartID, PartName, Price, InStock, Min, Max, CompanyName);
-
-                    Inventory.addPart(newPart);
-
-
+                    MessageBox.Show("Company Name cannot be empty.");
+                    return;
                 }
 
-                this.DialogResult = DialogResult.OK; // Let MainForm know we saved
-                this.Close(); // Return back to MainForm
-
-
-
+                Outsourced newPart = new Outsourced(partID, partName, price, inStock, min, max, companyName);
+                Inventory.addPart(newPart);
             }
-            catch (Exception ex)
 
-            {
-
-                MessageBox.Show("Error: " + ex.Message);
-
-            }
+            this.DialogResult = DialogResult.OK;
+            this.Close();
 
         }
 

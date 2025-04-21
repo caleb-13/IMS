@@ -66,40 +66,79 @@ namespace Inventory_Management_System.Forms
 
         private void Savebtn_Click(object sender, EventArgs e)
         {
-            try
+            if (!int.TryParse(textBox3.Text, out int inStock))
             {
-                partToModify.Name = textBox2.Text;
-                partToModify.InStock = int.Parse(textBox3.Text);
-                partToModify.Price = double.Parse(textBox14.Text);
-                partToModify.Min = int.Parse(textBox5.Text);
-                partToModify.Max = int.Parse(textBox4.Text);
-
-                if (rbInHouse.Checked && partToModify is Inhouse inhousePart)
-                {
-                    inhousePart.MachineID = int.Parse(textBox6.Text);
-                }
-                else if (rbOutsourced.Checked && partToModify is Outsourced outsourcedPart)
-                {
-                    outsourcedPart.CompanyName = textBox6.Text;
-                }
-
-                this.DialogResult = DialogResult.OK;
-                this.Close();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error: " + ex.Message);
+                MessageBox.Show("Inventory must be a whole number.");
+                return;
             }
 
-        }
+            if (!double.TryParse(textBox14.Text, out double price))
+            {
+                MessageBox.Show("Price must be a valid number.");
+                return;
+            }
 
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
+            if (!int.TryParse(textBox5.Text, out int min))
+            {
+                MessageBox.Show("Min must be a whole number.");
+                return;
+            }
 
-        }
+            if (!int.TryParse(textBox4.Text, out int max))
+            {
+                MessageBox.Show("Max must be a whole number.");
+                return;
+            }
 
-        private void button2_Click(object sender, EventArgs e)
-        {
+            if (min > max)
+            {
+                MessageBox.Show("Min cannot be greater than Max.");
+                return;
+            }
+
+            if (inStock < min || inStock > max)
+            {
+                MessageBox.Show("Inventory must be between Min and Max.");
+                return;
+            }
+
+            string partName = textBox2.Text.Trim();
+            if (string.IsNullOrEmpty(partName))
+            {
+                MessageBox.Show("Name cannot be empty.");
+                return;
+            }
+
+            // Now safe to modify the part
+            partToModify.Name = partName;
+            partToModify.InStock = inStock;
+            partToModify.Price = price;
+            partToModify.Min = min;
+            partToModify.Max = max;
+
+            if (rbInHouse.Checked && partToModify is Inhouse inhousePart)
+            {
+                if (!int.TryParse(textBox6.Text, out int machineID))
+                {
+                    MessageBox.Show("Machine ID must be a whole number.");
+                    return;
+                }
+
+                inhousePart.MachineID = machineID;
+            }
+            else if (rbOutsourced.Checked && partToModify is Outsourced outsourcedPart)
+            {
+                string companyName = textBox6.Text.Trim();
+                if (string.IsNullOrEmpty(companyName))
+                {
+                    MessageBox.Show("Company name cannot be empty.");
+                    return;
+                }
+
+                outsourcedPart.CompanyName = companyName;
+            }
+
+            this.DialogResult = DialogResult.OK;
             this.Close();
         }
     }

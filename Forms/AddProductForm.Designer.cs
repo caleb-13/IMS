@@ -125,6 +125,7 @@ namespace Inventory_Management_System.Forms
             dataGridViewAssociatedParts.RowHeadersVisible = false;
             dataGridViewAssociatedParts.Size = new Size(603, 150);
             dataGridViewAssociatedParts.TabIndex = 1;
+            dataGridViewAssociatedParts.CellContentClick += dataGridViewAssociatedParts_CellContentClick;
             // 
             // Column7
             // 
@@ -272,6 +273,7 @@ namespace Inventory_Management_System.Forms
             button3.TabIndex = 15;
             button3.Text = "Cancel";
             button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
             // 
             // textBox2
             // 

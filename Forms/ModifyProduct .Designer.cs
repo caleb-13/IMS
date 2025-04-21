@@ -295,6 +295,7 @@
             button2.TabIndex = 19;
             button2.Text = "Add";
             button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // button3
             // 
@@ -304,7 +305,7 @@
             button3.TabIndex = 20;
             button3.Text = "Delete";
             button3.UseVisualStyleBackColor = true;
-            //button3.Click += this.button3_Click;
+            button3.Click += button3_Click;
             // 
             // button4
             // 
@@ -324,6 +325,7 @@
             button5.TabIndex = 22;
             button5.Text = "Cancel";
             button5.UseVisualStyleBackColor = true;
+            button5.Click += button5_Click;
             // 
             // ModifyProduct
             // 
