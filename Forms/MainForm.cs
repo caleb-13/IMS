@@ -130,7 +130,6 @@ namespace Inventory_Management_System
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -202,6 +201,12 @@ namespace Inventory_Management_System
             {
                 MessageBox.Show("Part not found.");
             }
+            if (string.IsNullOrEmpty(searchTerm))
+            {
+                MessageBox.Show("Please enter a Part ID or Name.");
+                dataGridViewParts.ClearSelection();
+                return;
+            }
         }
 
         private void bthProductSearch_Click(object sender, EventArgs e)
@@ -211,6 +216,7 @@ namespace Inventory_Management_System
 
             if (string.IsNullOrEmpty(searchTerm))
             {
+                DataGridViewProducts.ClearSelection();
                 MessageBox.Show("Please enter a Product ID or Name.");
                 return;
             }
@@ -255,7 +261,7 @@ namespace Inventory_Management_System
 
         private void btn_modify(object sender, EventArgs e)
         {
-            
+
 
             if (dataGridViewParts.SelectedRows.Count == 0)
             {
@@ -267,11 +273,10 @@ namespace Inventory_Management_System
 
             if (selectedPart != null)
             {
-                ModifyPart modifyPart = new ModifyPart(selectedPart);
-
-                if (modifyPart.ShowDialog() == DialogResult.OK)
+                ModifyPart modifyForm = new ModifyPart(selectedPart); 
+                if (modifyForm.ShowDialog() == DialogResult.OK)
                 {
-                    dataGridViewParts.Refresh(); // Update the grid with modified values
+                    dataGridViewParts.Refresh();
                 }
             }
         }
@@ -337,11 +342,10 @@ namespace Inventory_Management_System
 
             if (selectedProduct != null)
             {
-                ModifyProduct modifyProductForm = new ModifyProduct(selectedProduct); // ? Correct class & variable name
-
-                if (modifyProductForm.ShowDialog() == DialogResult.OK)
+                ModifyProduct modifyForm = new ModifyProduct(selectedProduct); // ? Must be ModifyProduct
+                if (modifyForm.ShowDialog() == DialogResult.OK)
                 {
-                    DataGridViewProducts.Refresh(); // ? Will update the view if data is changed in-place
+                    DataGridViewProducts.Refresh();
                 }
             }
         }

@@ -20,7 +20,7 @@ namespace Inventory_Management_System
     {
 
 
-
+        private int newPartID;
 
         private MainForm mainForm;
         public AddForm(MainForm form)
@@ -47,84 +47,81 @@ namespace Inventory_Management_System
         }
         private void AddForm_Load(object sender, EventArgs e)
         {
+
+            newPartID = Inventory.GenerateNextID();
+
+            // Set textbox to show the ID and make it non-editable
+            textBox1.Text = newPartID.ToString(); // Replace textBox1 with your ID textbox name
+            textBox1.ReadOnly = true;
+            textBox1.Enabled = false;
+            textBox1.TabStop = false;
             label7.Visible = false;
             textBox6.Visible = false;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (!int.TryParse(textBox3.Text, out int inStock))
+            try
             {
-                MessageBox.Show("Inventory must be a whole number.");
-                return;
-            }
-
-            if (!double.TryParse(textBox14.Text, out double price))
-            {
-                MessageBox.Show("Price must be a number.");
-                return;
-            }
-
-            if (!int.TryParse(textBox5.Text, out int min))
-            {
-                MessageBox.Show("Min must be a whole number.");
-                return;
-            }
-
-            if (!int.TryParse(textBox4.Text, out int max))
-            {
-                MessageBox.Show("Max must be a whole number.");
-                return;
-            }
-
-            if (min > max)
-            {
-                MessageBox.Show("Min cannot be greater than Max.");
-                return;
-            }
-
-            if (inStock < min || inStock > max)
-            {
-                MessageBox.Show("Inventory must be between Min and Max.");
-                return;
-            }
-
-            // Optional: Check name is not blank
-            string partName = textBox2.Text.Trim();
-            if (string.IsNullOrEmpty(partName))
-            {
-                MessageBox.Show("Part Name cannot be empty.");
-                return;
-            }
-
-            int partID = Inventory.GenerateNextID();
-
-            if (rbInHouse.Checked)
-            {
-                if (!int.TryParse(textBox6.Text, out int machineID))
+                string name = textBox2.Text.Trim();
+                if (string.IsNullOrEmpty(name))
                 {
-                    MessageBox.Show("Machine ID must be a whole number.");
+                    MessageBox.Show("Name cannot be empty.");
                     return;
                 }
 
-                Inhouse newPart = new Inhouse(partID, partName, price, inStock, min, max, machineID);
-                Inventory.addPart(newPart);
-            }
-            else if (rbOutsourced.Checked)
-            {
-                string companyName = textBox6.Text.Trim();
-                if (string.IsNullOrEmpty(companyName))
+                if (!int.TryParse(textBox3.Text, out int inStock) ||
+                    !double.TryParse(textBox14.Text, out double price) ||
+                    !int.TryParse(textBox5.Text, out int min) ||
+                    !int.TryParse(textBox4.Text, out int max))
                 {
-                    MessageBox.Show("Company Name cannot be empty.");
+                    MessageBox.Show("Please enter valid numeric values.");
                     return;
                 }
 
-                Outsourced newPart = new Outsourced(partID, partName, price, inStock, min, max, companyName);
-                Inventory.addPart(newPart);
-            }
+                if (min > max)
+                {
+                    MessageBox.Show("Min cannot be greater than Max.");
+                    return;
+                }
 
-            this.DialogResult = DialogResult.OK;
-            this.Close();
+                if (inStock < min || inStock > max)
+                {
+                    MessageBox.Show("Inventory must be between Min and Max.");
+                    return;
+                }
+
+                if (rbInHouse.Checked)
+                {
+                    if (!int.TryParse(textBox6.Text, out int machineID))
+                    {
+                        MessageBox.Show("Machine ID must be a number.");
+                        return;
+                    }
+
+                    Inhouse newPart = new Inhouse(newPartID, name, price, inStock, min, max, machineID);
+                    Inventory.addPart(newPart);
+                }
+                else if (rbOutsourced.Checked)
+                {
+                    string companyName = textBox6.Text.Trim();
+                    if (string.IsNullOrEmpty(companyName))
+                    {
+                        MessageBox.Show("Company name cannot be empty.");
+                        return;
+                    }
+
+                    Outsourced newPart = new Outsourced(newPartID, name, price, inStock, min, max, companyName);
+                    Inventory.addPart(newPart);
+                }
+
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
 
         }
 

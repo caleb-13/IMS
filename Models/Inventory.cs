@@ -14,12 +14,10 @@ namespace Inventory_Management_System.Models
         static public BindingList<Product> Products { get; set; } = new BindingList<Product>();
         static public BindingList<Part> Allparts { get; set; } = new BindingList<Part>();
 
-        static public Product CurrentPrdouct { get; set; }
-        static public Part CurrentProduct { get; set; } 
-        static private int PartID { get; set; }
-        private static int nextProductID = 1;
+      
+        private static int nextProductID = 4; 
 
-        private static int nextID = 4;
+        private static int nextPartID = 4;
 
 
 
@@ -30,14 +28,12 @@ namespace Inventory_Management_System.Models
             addProduct(new Product(3, "Engine", 30.00, 30, 1, 300));
             addPart(new Inhouse(1, "Drill Bit", 1.00, 10, 1, 100, 1));
             addPart(new Inhouse(2, "Speaker", 2.00, 20, 1, 200, 2));
-            addPart(new Outsourced(3, "Coil", 3.00, 30, 1, 300, "Auto Industry"));
-            PartID = 4; // Start at 4 because we added 3 parts
-            nextProductID = 4; // Start at 4 because we added 3 products
+            addPart(new Outsourced(3, "Coil", 3.00, 30, 1, 300, "Auto Industry")); 
         }
 
         public static int GenerateNextID()
         {
-            return nextID++;
+            return nextPartID++;
         }
 
         public static int generateProductID()
@@ -49,79 +45,10 @@ namespace Inventory_Management_System.Models
         {
             Allparts.Add(part);
         }
-        public int lookupProduct(Product product)
+
+        public static void addProduct(Product product)
         {
-            return product.ProductID;
-        }
-
-
-
-
-        public static void addProduct(Product product) 
-        { 
-            Products.Add(product); 
-        }
-        public static bool removeProduct(int productID)
-        {
-            foreach (Product product in Products)
-            {
-                if (product.ProductID == productID)
-                {
-                    Products.Remove(product);
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public static Product lookupProduct(int productID)
-        {
-            foreach (Product product in Products)
-            {
-                if (product.ProductID == productID)
-                {
-                    return product;
-                }
-            }
-            return null;
-        }
-
-        public static void updateProduct(int productID, Product product)
-        {
-            for (int i = 0; i < Products.Count; i++)
-            {
-                if (Products[i].ProductID == productID)
-                {
-                    Products[i] = product;
-                    break;
-                }
-
-            }
-        }
-
-        public static bool removePart(Part part)
-        {
-            foreach (Part p in Allparts)
-            {
-                if (p.PartID == part.PartID)
-                {
-                    Allparts.Remove(p);
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        public static Part lookupPart(int partID)
-        {
-            foreach (Part part in Allparts)
-            {
-                if (part.PartID == partID)
-                {
-                    return part;
-                }
-            }
-            return null;
+            Products.Add(product);
         }
 
         public static void updatePart(int partID, Part part)
@@ -135,6 +62,5 @@ namespace Inventory_Management_System.Models
                 }
             }
         }
-
     }
 }

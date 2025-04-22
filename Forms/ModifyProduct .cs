@@ -15,12 +15,14 @@ namespace Inventory_Management_System.Forms
     public partial class ModifyProduct : Form
     {
         private Product product;
+       
+        private BindingList<Part> associatedParts = new BindingList<Part>();
         internal ModifyProduct(Product selectedProduct)
         {
             InitializeComponent();
             product = selectedProduct;
             SetupAssociatedPartsGrid();
-            // Pre-fill form controls
+
             textBox3.Text = product.ProductID.ToString();
             textBox4.Text = product.Name;
             textBox2.Text = product.Price.ToString();
@@ -28,11 +30,15 @@ namespace Inventory_Management_System.Forms
             textBox7.Text = product.Min.ToString();
             textBox6.Text = product.Max.ToString();
 
-            textBox3.ReadOnly = true; // ID is not editable
+            textBox3.ReadOnly = true;
 
             dataGridViewModifyCandidateParts.DataSource = Inventory.Allparts;
-            dataGridViewModifyAssociatedParts.DataSource = Product.AssociatedParts;
+
+            associatedParts = new BindingList<Part>(Product.AssociatedParts.ToList());
+            dataGridViewModifyAssociatedParts.DataSource = associatedParts;
         }
+
+        
 
         private void dataGridView2_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {

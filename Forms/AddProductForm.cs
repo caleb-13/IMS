@@ -8,12 +8,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Inventory_Management_System.Forms
 {
     public partial class AddProductForm : Form
     {
-
+        private BindingList<Part> associatedParts = new BindingList<Part>();
+        private int newProductID;
         internal Product newProduct;
         public AddProductForm()
         {
@@ -79,25 +81,27 @@ namespace Inventory_Management_System.Forms
         private void AddProductForm_Load(object sender, EventArgs e)
         {
             SetupDataGridView();
+            newProductID = Inventory.generateProductID();
+            textBox2.Text = newProductID.ToString();
+            textBox2.ReadOnly = true;
+            textBox2.TabStop = false;
+            textBox2.BackColor = SystemColors.Window;
+            textBox2.ForeColor = SystemColors.ControlText;
+
             dataGridViewCandidateParts.DataSource = Inventory.Allparts;
-            dataGridViewAssociatedParts.DataSource = Product.AssociatedParts;
+            dataGridViewAssociatedParts.DataSource = associatedParts;
 
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
-            if (dataGridViewCandidateParts.SelectedRows.Count == 0)
+            if (dataGridViewCandidateParts.SelectedRows.Count > 0)
             {
-                MessageBox.Show("Please select a part to associate.");
-                return;
-            }
-
-            Part selectedPart = dataGridViewCandidateParts.SelectedRows[0].DataBoundItem as Part;
-
-            if (selectedPart != null && !Product.AssociatedParts.Contains(selectedPart))
-            {
-                Product.AssociatedParts.Add(selectedPart);
-                dataGridViewAssociatedParts.Refresh();
+                Part selectedPart = dataGridViewCandidateParts.SelectedRows[0].DataBoundItem as Part;
+                if (selectedPart != null && !associatedParts.Contains(selectedPart))
+                {
+                    associatedParts.Add(selectedPart); // ✅ Should trigger a new row in bottom grid
+                }
             }
 
         }
@@ -194,9 +198,13 @@ namespace Inventory_Management_System.Forms
                 return;
             }
 
-            // All validation passed — create the product
-            int productID = Inventory.generateProductID();
-            newProduct = new Product(productID, name, price, inStock, min, max);
+           
+            newProduct = new Product(newProductID, name, price, inStock, min, max);
+
+            foreach (Part part in associatedParts)
+            {
+                newProduct.addAssociatedPart(part); // ✅ This is what links them
+            }
 
             this.DialogResult = DialogResult.OK;
             this.Close();
