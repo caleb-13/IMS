@@ -100,7 +100,7 @@ namespace Inventory_Management_System.Forms
                 Part selectedPart = dataGridViewCandidateParts.SelectedRows[0].DataBoundItem as Part;
                 if (selectedPart != null && !associatedParts.Contains(selectedPart))
                 {
-                    associatedParts.Add(selectedPart); // ✅ Should trigger a new row in bottom grid
+                    associatedParts.Add(selectedPart); 
                 }
             }
 
@@ -155,59 +155,66 @@ namespace Inventory_Management_System.Forms
 
         private void button2_Click(object sender, EventArgs e)
         {
-            if (!int.TryParse(textBox4.Text, out int inStock))
+            try
             {
-                MessageBox.Show("Inventory must be a whole number.");
-                return;
+                string name = textBox3.Text.Trim();
+                if (string.IsNullOrEmpty(name))
+                {
+                    MessageBox.Show("Product name cannot be empty. Please enter a name.");
+                    return;
+                }
+
+                if (!int.TryParse(textBox4.Text, out int inStock))
+                {
+                    MessageBox.Show($"Inventory must be a whole number. You entered: '{textBox4.Text}'.");
+                    return;
+                }
+
+                if (!double.TryParse(textBox5.Text, out double price))
+                {
+                    MessageBox.Show($"Price must be a decimal number (e.g., 9.99). You entered: '{textBox5.Text}'.");
+                    return;
+                }
+
+                if (!int.TryParse(textBox7.Text, out int min))
+                {
+                    MessageBox.Show($"Min must be a whole number. You entered: '{textBox7.Text}'.");
+                    return;
+                }
+
+                if (!int.TryParse(textBox6.Text, out int max))
+                {
+                    MessageBox.Show($"Max must be a whole number. You entered: '{textBox6.Text}'.");
+                    return;
+                }
+
+                if (min > max)
+                {
+                    MessageBox.Show($"Min value ({min}) cannot be greater than Max value ({max}).");
+                    return;
+                }
+
+                if (inStock < min || inStock > max)
+                {
+                    MessageBox.Show($"Inventory value ({inStock}) must be between Min ({min}) and Max ({max}).");
+                    return;
+                }
+
+                newProduct = new Product(newProductID, name, price, inStock, min, max);
+
+                foreach (Part part in associatedParts)
+                {
+                    newProduct.addAssociatedPart(part); 
+                }
+
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Unexpected error: " + ex.Message);
             }
 
-            if (!double.TryParse(textBox5.Text, out double price))
-            {
-                MessageBox.Show("Price must be a valid number.");
-                return;
-            }
-
-            if (!int.TryParse(textBox7.Text, out int min))
-            {
-                MessageBox.Show("Min must be a whole number.");
-                return;
-            }
-
-            if (!int.TryParse(textBox6.Text, out int max))
-            {
-                MessageBox.Show("Max must be a whole number.");
-                return;
-            }
-
-            if (min > max)
-            {
-                MessageBox.Show("Min cannot be greater than Max.");
-                return;
-            }
-
-            if (inStock < min || inStock > max)
-            {
-                MessageBox.Show("Inventory must be between Min and Max.");
-                return;
-            }
-
-            string name = textBox3.Text.Trim();
-            if (string.IsNullOrEmpty(name))
-            {
-                MessageBox.Show("Product name cannot be empty.");
-                return;
-            }
-
-           
-            newProduct = new Product(newProductID, name, price, inStock, min, max);
-
-            foreach (Part part in associatedParts)
-            {
-                newProduct.addAssociatedPart(part); // ✅ This is what links them
-            }
-
-            this.DialogResult = DialogResult.OK;
-            this.Close();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -228,10 +235,9 @@ namespace Inventory_Management_System.Forms
 
                 if (confirm == DialogResult.Yes)
                 {
-                    Product.AssociatedParts.Remove(selectedPart);
-                    dataGridViewAssociatedParts.Refresh();
+                    associatedParts.Remove(selectedPart);
+                    dataGridViewAssociatedParts.Refresh(); 
                 }
-
             }
         }
 
@@ -243,6 +249,42 @@ namespace Inventory_Management_System.Forms
         private void dataGridViewAssociatedParts_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            string searchTerm = textBox1.Text.Trim().ToLower();
+            bool found = false;
+
+            for (int i = 0; i < dataGridViewCandidateParts.Rows.Count; i++)
+            {
+                Part part = dataGridViewCandidateParts.Rows[i].DataBoundItem as Part;
+
+                if (part != null &&
+                    (part.PartID.ToString().Equals(searchTerm) ||
+                     part.Name.ToLower().Contains(searchTerm)))
+                {
+                    dataGridViewCandidateParts.ClearSelection();
+                    dataGridViewCandidateParts.Rows[i].Selected = true;
+                    dataGridViewCandidateParts.FirstDisplayedScrollingRowIndex = i;
+                    found = true;
+                    break;
+                }
+            }
+
+            
+
+            if (string.IsNullOrEmpty(searchTerm))
+            {
+                dataGridViewCandidateParts.ClearSelection();
+                MessageBox.Show("Please enter a Part ID or Name.");
+                return;
+            }
+
+            if (!found)
+            {
+                MessageBox.Show("Part not found.");
+            }
         }
     }
 }

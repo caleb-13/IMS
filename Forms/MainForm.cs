@@ -142,7 +142,7 @@ namespace Inventory_Management_System
             AddForm addForm = new AddForm(this);
             if (addForm.ShowDialog() == DialogResult.OK)
             {
-                // Rebind or refresh to reflect new data
+                
                 dataGridViewParts.DataSource = null;
                 dataGridViewParts.DataSource = Inventory.Allparts;
             }
@@ -162,7 +162,7 @@ namespace Inventory_Management_System
             string searchTerm = textBoxSearch.Text.Trim();
             bool found = false;
 
-            // If the user typed a number, try to search by ID
+            
             if (int.TryParse(searchTerm, out int partIDToFind))
             {
                 for (int i = 0; i < dataGridViewParts.Rows.Count; i++)
@@ -181,7 +181,7 @@ namespace Inventory_Management_System
             }
             else
             {
-                // Otherwise, search by name (case-insensitive)
+                
                 for (int i = 0; i < dataGridViewParts.Rows.Count; i++)
                 {
                     Part part = dataGridViewParts.Rows[i].DataBoundItem as Part;
@@ -221,7 +221,7 @@ namespace Inventory_Management_System
                 return;
             }
 
-            // Try searching by Product ID (numeric)
+            
             if (int.TryParse(searchTerm, out int productIDToFind))
             {
                 foreach (DataGridViewRow row in DataGridViewProducts.Rows)
@@ -238,7 +238,7 @@ namespace Inventory_Management_System
             }
             else
             {
-                // Search by product name (case-insensitive)
+              
                 foreach (DataGridViewRow row in DataGridViewProducts.Rows)
                 {
                     if (row.DataBoundItem is Product product &&
@@ -273,7 +273,7 @@ namespace Inventory_Management_System
 
             if (selectedPart != null)
             {
-                ModifyPart modifyForm = new ModifyPart(selectedPart); 
+                ModifyPart modifyForm = new ModifyPart(selectedPart);
                 if (modifyForm.ShowDialog() == DialogResult.OK)
                 {
                     dataGridViewParts.Refresh();
@@ -292,7 +292,7 @@ namespace Inventory_Management_System
 
             Part selectedPart = dataGridViewParts.SelectedRows[0].DataBoundItem as Part;
 
-            // ? Check if part is associated with any product
+            
             bool isPartAssociated = Inventory.Products.Any(Product =>
                 Product.AssociatedParts.Contains(selectedPart));
 
@@ -313,7 +313,7 @@ namespace Inventory_Management_System
         }
         private void btn_exit_click(object sender, EventArgs e)
         {
-            this.Close(); // Closes the form
+            this.Close(); 
         }
 
 
@@ -342,7 +342,7 @@ namespace Inventory_Management_System
 
             if (selectedProduct != null)
             {
-                ModifyProduct modifyForm = new ModifyProduct(selectedProduct); // ? Must be ModifyProduct
+                ModifyProduct modifyForm = new ModifyProduct(selectedProduct);
                 if (modifyForm.ShowDialog() == DialogResult.OK)
                 {
                     DataGridViewProducts.Refresh();
@@ -390,18 +390,28 @@ namespace Inventory_Management_System
                 return;
             }
 
-            DialogResult result = MessageBox.Show("Are you sure you want to delete this product?", "Confirm Delete", MessageBoxButtons.YesNo);
+            Product selectedProduct = DataGridViewProducts.SelectedRows[0].DataBoundItem as Product;
 
-            if (result == DialogResult.Yes)
+            if (selectedProduct != null)
             {
-                Product selectedProduct = DataGridViewProducts.SelectedRows[0].DataBoundItem as Product;
-
-                if (selectedProduct != null)
+                
+                if (Product.AssociatedParts.Count > 0)
                 {
-                    Inventory.Products.Remove(selectedProduct);
+                    MessageBox.Show("Cannot delete this product because it has associated parts.");
+                    return;
+                }
+
+               
+                DialogResult result = MessageBox.Show(
+                    $"Are you sure you want to delete '{selectedProduct.Name}'?",
+                    "Confirm Delete", MessageBoxButtons.YesNo);
+
+                if (result == DialogResult.Yes)
+                {
+                    Inventory.Products.Remove(selectedProduct); 
                 }
             }
         }
-    }   
+    }
 }
 

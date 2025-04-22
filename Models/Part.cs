@@ -15,7 +15,7 @@ namespace Inventory_Management_System.Models
         public int InStock { get; set; }
         public int Min { get; set; }
         public int Max { get; set; }
-        public int MachineID { get; set; } // null by default
+        public int MachineID { get; set; } 
         
 
 

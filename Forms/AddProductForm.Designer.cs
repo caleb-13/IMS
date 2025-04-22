@@ -335,6 +335,7 @@ namespace Inventory_Management_System.Forms
             button5.TabIndex = 23;
             button5.Text = "Search";
             button5.UseVisualStyleBackColor = true;
+            button5.Click += button5_Click;
             // 
             // AddProductForm
             // 

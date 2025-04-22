@@ -18,7 +18,7 @@ namespace Inventory_Management_System.Forms
         }
         private void label7_Click(object sender, EventArgs e)
         {
-            // Handle the click event here (can be empty for now)
+     
         }
 
         private void Outsource_Load(object sender, EventArgs e)

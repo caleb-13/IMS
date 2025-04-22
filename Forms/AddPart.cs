@@ -50,8 +50,8 @@ namespace Inventory_Management_System
 
             newPartID = Inventory.GenerateNextID();
 
-            // Set textbox to show the ID and make it non-editable
-            textBox1.Text = newPartID.ToString(); // Replace textBox1 with your ID textbox name
+            
+            textBox1.Text = newPartID.ToString(); 
             textBox1.ReadOnly = true;
             textBox1.Enabled = false;
             textBox1.TabStop = false;
@@ -66,28 +66,43 @@ namespace Inventory_Management_System
                 string name = textBox2.Text.Trim();
                 if (string.IsNullOrEmpty(name))
                 {
-                    MessageBox.Show("Name cannot be empty.");
+                    MessageBox.Show("Name field cannot be empty. Please enter a part name.");
                     return;
                 }
 
-                if (!int.TryParse(textBox3.Text, out int inStock) ||
-                    !double.TryParse(textBox14.Text, out double price) ||
-                    !int.TryParse(textBox5.Text, out int min) ||
-                    !int.TryParse(textBox4.Text, out int max))
+                if (!int.TryParse(textBox3.Text, out int inStock))
                 {
-                    MessageBox.Show("Please enter valid numeric values.");
+                    MessageBox.Show($"Inventory must be a whole number. You entered: '{textBox3.Text}'.");
+                    return;
+                }
+
+                if (!double.TryParse(textBox14.Text, out double price))
+                {
+                    MessageBox.Show($"Price must be a decimal number (e.g., 12.99). You entered: '{textBox14.Text}'.");
+                    return;
+                }
+
+                if (!int.TryParse(textBox5.Text, out int min))
+                {
+                    MessageBox.Show($"Min must be a whole number. You entered: '{textBox5.Text}'.");
+                    return;
+                }
+
+                if (!int.TryParse(textBox4.Text, out int max))
+                {
+                    MessageBox.Show($"Max must be a whole number. You entered: '{textBox4.Text}'.");
                     return;
                 }
 
                 if (min > max)
                 {
-                    MessageBox.Show("Min cannot be greater than Max.");
+                    MessageBox.Show($"Min ({min}) cannot be greater than Max ({max}).");
                     return;
                 }
 
                 if (inStock < min || inStock > max)
                 {
-                    MessageBox.Show("Inventory must be between Min and Max.");
+                    MessageBox.Show($"Inventory ({inStock}) must be between Min ({min}) and Max ({max}).");
                     return;
                 }
 
@@ -95,7 +110,7 @@ namespace Inventory_Management_System
                 {
                     if (!int.TryParse(textBox6.Text, out int machineID))
                     {
-                        MessageBox.Show("Machine ID must be a number.");
+                        MessageBox.Show($"Machine ID must be a whole number. You entered: '{textBox6.Text}'.");
                         return;
                     }
 
@@ -107,7 +122,7 @@ namespace Inventory_Management_System
                     string companyName = textBox6.Text.Trim();
                     if (string.IsNullOrEmpty(companyName))
                     {
-                        MessageBox.Show("Company name cannot be empty.");
+                        MessageBox.Show("Company Name cannot be empty. Please enter a company name.");
                         return;
                     }
 
@@ -120,7 +135,7 @@ namespace Inventory_Management_System
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message);
+                MessageBox.Show("Unexpected error: " + ex.Message);
             }
 
         }
