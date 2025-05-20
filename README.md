@@ -22,3 +22,7 @@ This project uses in-memory data (no database).
 About the Project
 This project demonstrates object-oriented design, Windows Forms development, and UI interaction logic.
 
+While the current version of this project meets all required functionality,
+I plan to make further improvements to the codebase for maintainability and scalability. In particular:
+
+    Refactor repetitive logic across forms (such as DataGridView setup) into a reusable helper class to reduce redundancy and simplify future updates.
