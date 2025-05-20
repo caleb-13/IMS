@@ -1,6 +1,6 @@
 # Inventory Management System 
 
-This is a desktop Inventory Management System built with C# and WinForms as part of WGU’s Software I (C968) course.
+This is a desktop Inventory Management System built with C# and WinForms,
 
 Features
 - Add, modify, and delete parts and products
